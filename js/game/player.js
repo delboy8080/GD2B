@@ -2,7 +2,7 @@ import GameObject from "../engine/gameobject.js";
 import Renderer from "../engine/renderer.js";
 import Physics from "../engine/physics.js";
 import Input from "../engine/input.js";
-
+import ParticleSystem from "../engine/particleSystem.js"
 class Player extends GameObject
 {
     constructor(x, y, img)
@@ -64,6 +64,15 @@ class Player extends GameObject
                 }
             }
         }
+        let collectibles = this.game.gameObjects.filter((obj) => obj.tag == "collectible");
+        for(const c of collectibles)
+        {
+            if(physics.isColliding(c.getComponent(Physics)))
+            {
+                this.emitParticles(c);
+                this.game.removeGameObject(c);
+            }
+        }
         super.update(deltaTime);
     }
     
@@ -85,6 +94,13 @@ class Player extends GameObject
         {
             this.isJumping = false;
         }
+    }
+    
+    emitParticles(collectible)
+    {
+        const particleSystem = new ParticleSystem
+        (collectible.x,collectible.y, 'yellow', 20, 1, 0.5);
+        this.game.addGameObject(particleSystem);
     }
 }
 
