@@ -2,6 +2,7 @@ import Game from "../engine/game.js"
 import Confiner from "../engine/confiner.js"
 import Player from "./player.js"
 import Platform from "./platform.js"
+import Enemy from "./enemy.js"
 import Collectible from "./collectible.js"
 import {Images} from "../engine/resources.js"
 
@@ -37,6 +38,18 @@ class Level extends Game
         {
           
             this.addGameObject(c);
+        }
+        
+        let enemies = [
+            new Enemy(300, canvasHeight-90, 35, 50, 'red', Images.enemy),
+            new Enemy(720, canvasHeight-90, 35, 50, 'red', Images.enemy),
+            
+            
+        ];
+         for(const e of enemies)
+        {
+          
+            this.addGameObject(e);
         }
         this.addGameObject(this.player);
     }
